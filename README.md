@@ -30,7 +30,6 @@ Populate the `host_whitelist` file accordingly
  - Whitelisting of entries
    - Flash Access
  - Fix openbox menu error
- - Fix Xvfb size, the screen seems loooooooooooooooooongcat enabled.
  - Work on some better authentication if this wants to be run centrally by an engineering team
 
 
