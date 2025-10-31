@@ -1,5 +1,5 @@
 # kvm_access
-Docker container with NoVNC, Palemoon, Flash and JRE8 (Webstart/Apple) for KVM Access to legacy hardware
+Docker container with NoVNC, Palemoon, Flash and JRE8 (WebStart/Applet) for KVM Access to legacy hardware
 
 Yes, this is as terrible as it sounds. But throwing away working hardware just because the vendor EOL'd it is worse.
 
