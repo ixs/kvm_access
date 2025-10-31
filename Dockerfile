@@ -43,7 +43,14 @@ RUN yum -y install \
     dbus-glib \
     libnsl \
     xterm \
+    xxd \
+    sqlite3 \
+    openssl \
+    python3 \
+    python3-pip \
     tini
+
+RUN pip install firefox-cert-override
 
 # Palemoon installation based on https://developer.palemoon.org/docs/linux-installation/
 COPY --from=pale-moon-tarball /app/palemoon /app/palemoon
@@ -93,7 +100,11 @@ RUN cat << EOF > ${HOME}/.moonchild\ productions/pale\ moon/default/prefs.js
  * To make a manual change to preferences, you can visit the URL about:config
  */
 
-user_pref("browser.startup.homepage", "about:blank");
+user_pref("browser.newtabpage.enabled", false);
+user_pref("trailhead.firstrun.didSeeAboutWelcome", true);
+user_pref("trailhead.firstrun.branches", "nofirstrun-empty");
+user_pref("browser.aboutwelcome.enabled", false);
+user_pref("browser.startup.homepage", "file:///tmp/homepage.html");
 user_pref("browser.shell.checkDefaultBrowser", false);
 user_pref("extensions.shownSelectionUI", true);
 user_pref("status4evar.firstRun", false);
@@ -112,6 +123,20 @@ RUN ln -s /app/java/jdk1.8.0_261/bin/java /usr/bin/java && \
     ln -s /app/java/jdk1.8.0_261/bin/javaws /usr/bin/javaws && \
     ln -s /app/java/jdk1.8.0_261/bin/jcontrol /usr/bin/jcontrol && \
     ln -s /app/java/jdk1.8.0_261/jre/lib/amd64/libnpjp2.so ${HOME}/.mozilla/plugins/libnpjp2.so
+
+
+RUN mkdir -p "${HOME}/.java/deployment/" && cat << EOF > "${_}/deployment.properties"
+#deployment.properties
+#$(date)
+deployment.modified.timestamp=$(($(date +%s) * 1000))
+deployment.version=8
+deployment.security.level=HIGH
+deployment.expiration.check.enabled=false
+deployment.expiration.decision=NEVER
+deployment.expiration.decision.suppression=TRUE
+deployment.security.jsse.hostmismatch.warning=FALSE
+install.disable.sponsor.offers=TRUE
+EOF
 
 RUN cat << EOF > /usr/share/applications/javaws.desktop
 [Desktop Entry]
@@ -157,12 +182,16 @@ x11vnc \
 sleep 3
 
 xterm &
+
+/app/whitelist.sh
 palemoon &
 
 exec /usr/bin/novnc_proxy --vnc localhost:5900 --file-only
 EOF
 
 RUN chmod +x /app/startup.sh
+
+ADD --chmod=+x whitelist.sh whitelist.sh
 
 ENV DISPLAY=":1"
 ENTRYPOINT ["/usr/bin/tini", "--"]

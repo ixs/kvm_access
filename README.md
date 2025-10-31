@@ -19,16 +19,17 @@ This is a build in progress and should be seen as a tech-preview.
 The docker container can be generated using `./build.sh` and then started with `./run.sh`.
 Access is then possible at http://localhost:6080/.
 
+# Host Whitelist
 
+In order to save some clicks on confirming security exceptions, there's a function to whitelist a number of
+hosts on container startup.
+Populate the `host_whitelist` file accordingly
 
 # Todo
 
  - Whitelisting of entries
-   - SSL Certificates
    - Flash Access
-   - Java Security Exception
  - Fix openbox menu error
- - Investigate how to get ALT-TAB working
  - Fix Xvfb size, the screen seems loooooooooooooooooongcat enabled.
  - Work on some better authentication if this wants to be run centrally by an engineering team
 
