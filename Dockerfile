@@ -4,6 +4,7 @@ WORKDIR /app
 
 # Prime the yum cache once
 RUN yum makecache
+RUN yum -y update
 
 
 
