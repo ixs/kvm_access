@@ -10,7 +10,7 @@ RUN yum -y update
 
 FROM base AS pale-moon-tarball
 
-RUN curl -L ftp://ftp.palemoon.org/avx/linux/palemoon-33.9.1.linux-x86_64-sse2_gtk3.tar.xz | tar xJ
+RUN curl -L https://ftp2.palemoon.org/avx/linux/palemoon-34.3.0.1.linux-x86_64-sse2_gtk3.tar.xz | tar xJ
 
 
 
