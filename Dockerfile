@@ -198,7 +198,7 @@ EOF
 
 RUN chmod +x /app/startup.sh
 
-ADD --chmod=+x whitelist.sh whitelist.sh
+ADD --chmod=755 whitelist.sh whitelist.sh
 
 ENV DISPLAY=":1"
 ENTRYPOINT ["/usr/bin/tini", "--"]
